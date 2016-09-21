@@ -1,0 +1,24 @@
+﻿
+<h2>Use WPF client to upload the image.</h2>
+<h4>After that it gonna appear here automatically, with no need to reload this page!</h4>
+
+<div id="img-container">
+<!-- images will appear here -->
+</div>
+
+<script>
+    // ATTENTION:
+    // ajax below would create wrong URL if triggered from .../Home/Index startpoint!
+    setInterval(function () {
+        var hasUpdate = $.ajax("api/image/HasUpdate").done(
+            function (data) {
+                if (data === true) {
+                    var lastUploadedSrc = $.ajax("api/image/LastUploadedSrc").done(
+                        function (data) {
+                            $('#img-container').append(
+                                "<img src='" + data + "' />");
+                        });
+                }
+            });
+    }, 2000);
+</script>
